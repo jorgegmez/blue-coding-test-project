@@ -1,12 +1,21 @@
-const API_URL = "<SOME_URL>";
+const API_URL = "http://api.giphy.com/v1/gifs/search";
+const API_KEY = "pLURtkhVrUXr3KG25Gy5IvzziV5OrZGa";
 
-export async function getData() {
-  const res = await fetch(`${API_URL}`);
+export async function getData(query = "all", offset = 1, limit = 5) {
+  console.log("query", query);
+  console.log(
+    "url",
+    `${API_URL}?api_key=${API_KEY}&q=${query}&offset=${offset}&limit=${limit}`
+  );
+  const res = await fetch(
+    `${API_URL}?api_key=${API_KEY}&q=${query}&offset=${offset}&limit=${limit}`
+  );
 
   // fetch won't throw error on 400 errors (e.g. when URL is wrong), so we need to do it manually. This will then go into the catch block, where the message is set
   if (!res.ok) throw Error("Failed getting data");
 
   const { data } = await res.json();
+  console.log("data", data);
   return data;
 }
 
